@@ -1,59 +1,71 @@
 clc
-
+%20-42954-1
+%AB-CDEFG-H
+%E=9
+%F=5
+%G=4
+%bit=[1 0 0 1 0 1 0 1 0 1 0 0]
+clear all
 close all
-bit_stream = [0 1 0 1 0 1 0 1 0 1 1 0]; 
+bit_stream = [1 0 0 1 0 1 0 1 0 1 0 0];
 no_bits = length(bit_stream);
- bit_rate = 10000;
- pulse_per_bit = 2;
- pulse_duration = 1/((pulse_per_bit)*(bit_rate));
- no_pulses = no_bits*pulse_per_bit;
- samples_per_pulse = 1000;
- fs = (samples_per_pulse)/(pulse_duration);
- t = 0:1/fs:(no_pulses)*(pulse_duration);
- no_samples = length(t);
- dig_sig = zeros(1,no_samples);
- max_voltage = +2;
- avg_voltage=0;
- min_voltage = -2;
-flag=0;
-last_state=min_voltage;
-flag1=0;
+bit_rate = 10000;
+pulse_per_bit = 1;
+pulse_duration = 1/((pulse_per_bit)*(bit_rate));
+no_pulses = no_bits*pulse_per_bit;
+samples_per_pulse = 1000;
+fs = (samples_per_pulse)/(pulse_duration);%sampling frequency
+% including pulse duration in sampling frequency
+% ensures having enough samples in each pulse
+t = 0:1/fs:(no_pulses)*(pulse_duration);% sampling interval
+% total duration = (no_pulse)*(pulse_duration)
+no_samples = length(t);% total number of samples
+dig_sig = zeros(1,no_samples);
+max_voltage = +5;
+avg_voltage = 0;
+min_voltage = -5;
+last_b = 0;
+current_level = avg_voltage;
+last_nzero_level = min_voltage;
 for i = 1:no_bits
- if bit_stream(i) == 1
- if flag == 0
- if flag1==0
- dig_sig((i*(samples_per_pulse)+1):(i+1)*(samples_per_pulse)) = max_voltage*ones(1,samples_per_pulse);
- flag=1;
- last_state=max_voltage;
- flag1=1;
- else
- dig_sig((i*(samples_per_pulse)+1):(i+1)*(samples_per_pulse)) = avg_voltage*ones(1,samples_per_pulse);
- flag=0;
- last_state=avg_voltage;
- flag1=0;
- end
- else
- if flag1==1
- dig_sig((i*(samples_per_pulse)+1):(i+1)*(samples_per_pulse)) = avg_voltage*ones(1,samples_per_pulse);
- flag=0;
- last_state=avg_voltage;
- flag1=0;
- else
- dig_sig((i*(samples_per_pulse)+1):(i+1)*(samples_per_pulse)) = min_voltage*ones(1,samples_per_pulse);
- flag=0;
- last_state=min_voltage;
-1;
- flag1=1;
- end
- end
- else
- dig_sig((i*(samples_per_pulse)+1):(i+1)*(samples_per_pulse)) = last_state*ones(1,samples_per_pulse);
- end
+if bit_stream(i) == 1
+if last_b == 0
+if last_nzero_level == min_voltage
+dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = max_voltage*ones(1,samples_per_pulse);
+last_nzero_level = max_voltage;
+current_level = max_voltage;
+last_b = 1;
+else
+dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = min_voltage*ones(1,samples_per_pulse);
+last_nzero_level = min_voltage;
+last_b = 1;
+current_level = min_voltage;
 end
- plot(t,dig_sig,'linewidth',1.5)
+else
+if last_nzero_level == max_voltage
+ dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = avg_voltage*ones(1,samples_per_pulse);
+last_b = 0;
+current_level = avg_voltage;
+elseif last_nzero_level == min_voltage
+dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = avg_voltage*ones(1,samples_per_pulse);
+last_b = 0;
+current_level = avg_voltage;
+else
+dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = current_level*ones(1,samples_per_pulse);
+last_b = 1;
+current_level = last_nzero_level;
+
+last_nzero_level = current_level;
+end
+end
+else
+dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = current_level*ones(1,samples_per_pulse);
+end
+end
+plot(t,dig_sig,'linewidth',1.5)
 grid on
 xlabel('time in seconds')
 ylabel('Voltage')
-ylim([(min_voltage - (max_voltage)*0.2) 
+ylim([(min_voltage - (max_voltage)*0.2)
 (max_voltage+max_voltage*0.2)])
- title(['MLT-3 for ',num2str(bit_stream),''])
+title(['MLT-3  ',num2str(bit_stream),''])
