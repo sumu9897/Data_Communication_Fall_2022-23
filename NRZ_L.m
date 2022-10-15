@@ -1,10 +1,16 @@
 clc
+%20-42954-1
+%AB-CDEFG-H
+%E=9
+%F=5
+%G=4
+%bit=[1 0 0 1 0 1 0 1 0 1 0 0]
 clear all
 close all
-bit_stream = [0 1 0 1 0 1 0 1 0 1 1 0];
+bit_stream = [1 0 0 1 0 1 0 1 0 1 0 0];
 no_bits = length(bit_stream);
-bit_rate = 4000; % 1 kbps
-pulse_per_bit = 1; % for unipolar nrz
+bit_rate = 4000; % 4 kbps
+pulse_per_bit = 1; % for polar nrz
 pulse_duration = 1/((pulse_per_bit)*(bit_rate));
 no_pulses = no_bits*pulse_per_bit;
 samples_per_pulse = 500;
@@ -19,8 +25,6 @@ max_voltage = 5;
 min_voltage = -5;
 for i = 1:no_bits
  if bit_stream(i) == 1
-
-
  dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = max_voltage*ones(1,samples_per_pulse);
  else
  dig_sig(((i-1)*(samples_per_pulse)+1):i*(samples_per_pulse)) = min_voltage*ones(1,samples_per_pulse);
