@@ -74,9 +74,9 @@ title('quantized samples')
 %%Number of Bits/Sample
 nb = log2(L)
 bandwidth=150;
-data_rate=fs*nb
-SNR_thy=6.02*nb+1.76
-SNR=10^(SNR_thy/10)
+data_rate=fs*nb% Data Rate Calculation
+SNR_thy=6.02*nb+1.76 %6.02*nb+1.76 
+SNR=10^(SNR_thy/10)%SNR Calculation
 max_cap=bandwidth*log2(1+SNR)
 
 i = round((quant_sig-min(quant_sig))/delta);% index for encoding
