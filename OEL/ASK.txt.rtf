@@ -1,0 +1,77 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2706
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red148\green0\blue242;\red15\green112\blue16;
+\red8\green0\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c65490\c3529\c96078;\cssrgb\c0\c50196\c7451;
+\cssrgb\c5490\c0\c100000;}
+{\info
+{\author MD SUMON}}\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs20 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 clc\
+close \cf3 \strokec3 all\cf0 \strokec2 ;\
+f=5;\
+f2=10;\
+x=[0 1 0 1] \cf4 \strokec4 % input signal ;\cf0 \strokec2 \
+nx=size(x,2);\
+i=1;\
+\pard\pardeftab720\partightenfactor0
+\cf5 \strokec5 while \cf0 \strokec2 i<nx+1\
+ t = i:0.001:i+1;\
+ \cf5 \strokec5 if \cf0 \strokec2 x(i)==1\
+ ask=sin(2*pi*f*t);\
+ \cf5 \strokec5 else\cf0 \strokec2 \
+ ask=0;\
+ \cf5 \strokec5 end\cf0 \strokec2 \
+ subplot(3,1,1);\
+ plot(t,ask);\
+ hold \cf3 \strokec3 on\cf0 \strokec2 ;\
+ grid \cf3 \strokec3 on\cf0 \strokec2 ;\
+ axis([1 10 -1 1]);\
+title(\cf3 \strokec3 'Amplitude Shift Key'\cf0 \strokec2 )\
+ i=i+1;\
+\cf5 \strokec5 end\cf0 \strokec2 \
+\
+x=[0 1 1 0] \cf4 \strokec4 % input signal ;\cf0 \strokec2 \
+nx=size(x,2);\
+i=1;\
+\cf5 \strokec5 while \cf0 \strokec2 i<nx+1\
+ t = i:0.001:i+1;\
+ \cf5 \strokec5 if \cf0 \strokec2 x(i)==1\
+ ask=sin(2*pi*f*t);\
+ \cf5 \strokec5 else\cf0 \strokec2 \
+ ask=0;\
+ \cf5 \strokec5 end\cf0 \strokec2 \
+ subplot(3,1,2);\
+ plot(t,ask);\
+ hold \cf3 \strokec3 on\cf0 \strokec2 ;\
+ grid \cf3 \strokec3 on\cf0 \strokec2 ;\
+ axis([1 10 -1 1]);\
+title(\cf3 \strokec3 'Amplitude Shift Key'\cf0 \strokec2 )\
+ i=i+1;\
+\cf5 \strokec5 end\cf0 \strokec2 \
+\
+x=[0 0 1 1] \cf4 \strokec4 % input signal ;\cf0 \strokec2 \
+nx=size(x,2);\
+i=1;\
+\cf5 \strokec5 while \cf0 \strokec2 i<nx+1\
+ t = i:0.001:i+1;\
+ \cf5 \strokec5 if \cf0 \strokec2 x(i)==1\
+ ask=sin(2*pi*f*t);\
+ \cf5 \strokec5 else\cf0 \strokec2 \
+ ask=0;\
+ \cf5 \strokec5 end\cf0 \strokec2 \
+ subplot(3,1,3);\
+ plot(t,ask);\
+ hold \cf3 \strokec3 on\cf0 \strokec2 ;\
+ grid \cf3 \strokec3 on\cf0 \strokec2 ;\
+ axis([1 10 -1 1]);\
+title(\cf3 \strokec3 'Amplitude Shift Key'\cf0 \strokec2 )\
+ i=i+1;\
+\cf5 \strokec5 end\cf0 \strokec2 \
+\
+\
+\
+}
